@@ -1,1 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    width: 100%;
+}
+
+/*Header Begins*/
+header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f39218;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+header h1 {
+    color: #731C98;
+    font-size: 48px;
+}
+
+header h1 a:visited {
+    color: #731C98;
+}
+
+header a {
+    text-decoration: none;
+}
+
+header a:visited {
+    color: #731C98;
+}
+
+header nav ul li {
+    display: inline;
+    list-style: none;
+    margin-left: 10px;
+}
+
+header nav ul li a {
+    color: #731C98;
+    font-size: 25px;
+}
+/*Header Ends*/
+
+/*General Info Articles*/
+.general-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 85%;
+    margin: 15px auto 0 auto;
+    border-bottom: 1.5px solid #f39218;
+    padding-bottom: 20px;
+}
+
+.general-info h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #731C98;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.general-info h2 a {
+    text-decoration: none;
+}
+
+.general-info p {
+    line-height: 1.2;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+/*General Info Articles Ends*/
+
+/*Geometry Articles*/
+.geometry-article {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 15px auto 0 auto;
+    border-bottom: 1.5px solid #f39218;
+    padding-bottom: 20px;
+}
+
+.article-info {
+    flex: 2 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.article-info h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.article-info p {
+    line-height: 1.2;
+}
+
+.button-display {
+    display: flex;
+    align-items: center;
+    flex: 3 60%;
+}
+
+.button-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.button-group button {
+    width: 75%;
+    font-size: 22px;
+    margin-bottom: 10px;
+    background-color: #f39218;
+    color: #731C98;
+}
+
+.button-group ul li {
+    list-style: none;
+}
+
+.display-group {
+    flex: 2;
+}
+/*Geometry Articles End*/
+
+/*Footer Styles*/
+footer {
+    background-color: #f39218;
+    color: #731C98;
+    display: flex;
+    margin: 30px auto 0 auto;
+    padding: 20px 50px;
+}
+/*Footer ends*/
+
+@media screen and (max-width: 980px) {
+    .button-group button {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .button-group button {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    
+}

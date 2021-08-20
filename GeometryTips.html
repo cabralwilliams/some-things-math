@@ -1,0 +1,109 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Geometry Tips</title>
+        <link rel="stylesheet" href="./assets/css/style.css" />
+    </head>
+    <body>
+        <header>
+            <h1><a href="#">Geometry Tips</a></h1>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="./index.html">Some Things Math</a>
+                    </li>
+                    <li>
+                        <a href="#triangleAnimate1">Triangles</a>
+                    </li>
+                    <li>
+                        <a href="#circleAnimate1">Circles</a>
+                    </li>
+                    <li>
+                        <a href="#rectangleAnimate1">Rectangles 1</a>
+                    </li>
+                    <li>
+                        <a href="#rectangleAnimate2">Rectangles 2</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <section class="main-content">
+            <article class="geometry-article" id="triangleAnimate1">
+                <div class="article-info">
+                    <h2>Triangles</h2>
+                    <p>A triangle is a polygon that has three sides and three angles, but not just any three sides can form a triangle.  <i>The longest side must be shorter than the sum of the shorter two sides.</i>  The sides of a triangle always obey the Law of Cosines.</p>
+                </div>
+                
+                <section class="button-display">
+                    <section class="button-group">
+                        <button id="triAn1Start" class="stacked-buttons">Start Animation</button>
+                        <button id="triAn1Pause" class="stacked-buttons">Pause Animation</button>
+                        <h3>Triangle Data</h3>
+                        <div id="triAn1Data"></div>
+                    </section>
+                    <section class="display-group">
+                        <div id="triAn1Display"></div>
+                    </section>
+                </section>
+            </article>
+            <article class="geometry-article" id="circleAnimate1">
+                <div class="article-info">
+                    <h2>Circles</h2>
+                    <p>A circle can be seen as an infinitely-sided regular polygon.  Once you know the radius or diameter of a circle, you can easily calculate its circumference and area.  Lengths, areas, and angles of central portions of a circle are always in proportion.</p>
+                </div>
+                <section class="button-display">
+                    <section class="button-group">
+                        <button id="circAn1Start" class="stacked-buttons">Start Animation</button>
+                        <button id="circAn1Pause" class="stacked-buttons">Pause Animation</button>
+                        <h3>Circle Data</h3>
+                        <div id="circAn1Data"></div>
+                    </section>
+                    <section class="display-group">
+                        <div id="circAn1Display"></div>
+                    </section>
+                </section>
+            </article>
+            <article class="geometry-article" id="rectangleAnimate1">
+                <div class="article-info">
+                    <h2>Rectangle Perimeters</h2>
+                    <p>A rectangle is a four-sided polygon that has four right angles.  If you have a limited perimeter to construct a rectangle, you will maximize the area of that rectangle by making it a square.</p>
+                </div>
+                <section class="button-display">
+                    <section class="button-group">
+                        <button id="rectAn1Start" class="stacked-buttons">Start Animation</button>
+                        <button id="rectAn1Pause" class="stacked-buttons">Pause Animation</button>
+                        <h3>Rectangle Data</h3>
+                        <div id="rectAn1Data"></div>
+                    </section>
+                    <section class="display-group">
+                        <div id="rectAn1Display"></div>
+                    </section>
+                </section>
+            </article>
+            <article class="geometry-article" id="rectangleAnimate2">
+                <div class="article-info">
+                    <h2>Rectangle Areas</h2>
+                    <p>A rectangle is a four-sided polygon that has four right angles.  If you have a specific area that you wish to contain with an a rectangle, you will minimize the perimeter by making the rectangle a square.</p>
+                </div>
+                <section class="button-display">
+                    <section class="button-group">
+                        <button id="rectAn2Start" class="stacked-buttons">Start Animation</button>
+                        <button id="rectAn2Pause" class="stacked-buttons">Pause Animation</button>
+                        <h3>Rectangle Data</h3>
+                        <div id="rectAn2Data"></div>
+                    </section>
+                    <section class="display-group">
+                        <div id="rectAn2Display"></div>
+                    </section>
+                </section>
+            </article>
+        </section>
+        <footer>
+            <h2>Cooked up by Cabral Williams</h2>
+        </footer>
+        <script src="./assets/js/geometry.js"></script>
+        <script src="./assets/js/geometryControl1.js"></script>
+    </body>
+</html>
