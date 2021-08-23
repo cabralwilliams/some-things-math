@@ -24,6 +24,10 @@ header h1 {
     font-size: 48px;
 }
 
+header h1 a {
+    color: #731C98;
+}
+
 header h1 a:visited {
     color: #731C98;
 }
@@ -132,11 +136,29 @@ header nav ul li a {
 
 .button-group ul li {
     list-style: none;
+    line-height: 1.2;
+    margin: 0 auto;
 }
 
 .display-group {
     flex: 2;
 }
+
+.display-group li {
+    list-style: none;
+    padding-left: 30px;
+}
+
+.display-group h3 {
+    padding-left: 30px;
+}
+
+/*.display-solution {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}*/
 /*Geometry Articles End*/
 
 /*Footer Styles*/
@@ -162,5 +184,8 @@ footer {
 }
 
 @media screen and (max-width: 575px) {
-    
+    .button-group button {
+        font-size: 14px;
+        width: 80%;
+    }
 }
