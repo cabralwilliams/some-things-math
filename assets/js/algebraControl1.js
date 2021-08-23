@@ -85,3 +85,49 @@ linSyst1Pause.addEventListener("click", function() {
         clearInterval(linIntSyst1Interval);
     }
 });
+
+var linSyst2Start = document.getElementById("linSyst2Start");
+var linSyst2Pause = document.getElementById("linSyst2Pause");
+var linSyst2Q = document.getElementById("linSyst2Q");
+var linSyst2Display = document.getElementById("linSyst2Display");
+
+var linIntSyst2 = new LinearElimination();
+var linIntSyst2Index = 0;
+var eliminatingX = true;
+var solutionMoving2 = false;
+var linSyst2Interval;
+
+linSyst2Q.innerHTML = `<ul><li>${formatStandardLinear(linIntSyst2.line1Cos[0],linIntSyst2.line1Cos[1],linIntSyst2.line1Cos[2],linIntSyst2.lineColor1)}</li><li>${formatStandardLinear(linIntSyst2.line2Cos[0],linIntSyst2.line2Cos[1],linIntSyst2.line2Cos[2],linIntSyst2.lineColor2)}<li><li>What is the solution, (<i>x</i>,<i>y</i>), to the system above?</li></ul>`;
+linSyst2Display.innerHTML = `<h3>Solution - Eliminate <i>x</i></h3><ul><li>${formatStandardLinear(linIntSyst2.line1Cos[0],linIntSyst2.line1Cos[1],linIntSyst2.line1Cos[2],linIntSyst2.lineColor1)}</li><li>${formatStandardLinear(linIntSyst2.line2Cos[0],linIntSyst2.line2Cos[1],linIntSyst2.line2Cos[2],linIntSyst2.lineColor2)}<li></ul>`;
+
+linSyst2Start.addEventListener("click", function() {
+    if(!solutionMoving2) {
+        solutionMoving2 = true;
+        linSyst2Interval = setInterval(() => {
+            linIntSyst2Index++;
+            if(eliminatingX) {
+                if(linIntSyst2Index >= linIntSyst2.eliminateX.length) {
+                    linIntSyst2Index = 0;
+                    eliminatingX = false;
+                }
+            } else {
+                if(linIntSyst2Index >= linIntSyst2.eliminateY.length) {
+                    linIntSyst2Index = 0;
+                    eliminatingX = true;
+                }
+            }
+            if(eliminatingX) {
+                linSyst2Display.innerHTML = `<h3>Solution - Eliminate <i>x</i></h3>${linIntSyst2.eliminateX[linIntSyst2Index]}`;
+            } else {
+                linSyst2Display.innerHTML = `<h3>Solution - Eliminate <i>y</i></h3>${linIntSyst2.eliminateY[linIntSyst2Index]}`;
+            }
+        }, 2500);
+    }
+});
+
+linSyst2Pause.addEventListener("click", function() {
+    if(solutionMoving2) {
+        solutionMoving2 = false;
+        clearInterval(linSyst2Interval);
+    }
+});

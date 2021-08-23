@@ -103,6 +103,21 @@ var formatStandardLinearLeft = (a = 1, b = 1, color = "black") => {
     return output;
 };
 
+var isPrime = (intVal = 24) => {
+    if(Math.abs(intVal) < 2) {
+        return false;
+    }
+    var testVal = Math.abs(intVal);
+    var i = 2;
+    while(i <= Math.sqrt(testVal)) {
+        if(testVal%i == 0) {
+            return false;
+        }
+        i++;
+    }
+    return true;
+};
+
 var greatestCommonFactor = (inputArray = [1,2,3,4,5]) => {
     //returns the greatest common positive factor of a list of integers input as an array
     var posVals = [];
@@ -141,6 +156,90 @@ var greatestCommonFactor = (inputArray = [1,2,3,4,5]) => {
         }
     }
     return gcf;
+};
+
+var primeFactorization = (inputInt = 24) => {
+    //Returns the positive prime factorization of a number(integer) but also includes the number 1
+    var testInt = Math.abs(Math.floor(inputInt));
+    if(testInt < 2) {
+        return [1];
+    }
+    var output = [1];
+    var testFactor = 2;
+    while(testInt > 1) {
+        while(testInt%testFactor == 0) {
+            if(isPrime(testFactor)) {
+                testInt /= testFactor;
+                output.push(testFactor);
+            }
+        }
+        testFactor++;
+    }
+    return output;
+};
+
+var leastCommonMultiple = (inputArray = [1,2,3,4,5]) => {
+    //returns the least common positive multiple of a list of integers input as an array
+    var posVals = [];
+    for(var i = 0; i < inputArray.length; i++) {
+        posVals.push(Math.abs(inputArray[i]));
+    }
+    var primes = [];
+    for(i = 0; i < posVals.length; i++) {
+        if(posVals[i] != 1) {
+            var pfs = primeFactorization(posVals[i]); //Get the prime factors of the current number
+            if(primes.length == 0) { //Take all prime factors of the first number
+                for(var j = 0; j < pfs.length; j++) {
+                    primes.push(pfs[j]);
+                }
+            } else {
+                //Test to see if all factors have been matched in the current number
+                var pfIndex = 0;
+                do {
+                    var cf = pfs[pfIndex];
+                    var count1 = 0; //Occurrences of the current factor in the pfs array
+                    var count2 = 0; //Occurrences of the current factor in the primes array
+                    do {
+                        count1++;
+                        pfIndex++;
+                    } while(pfIndex < pfs.length && cf == pfs[pfIndex]);
+                    if(cf == 1) {
+                        continue;
+                    } else {
+                        for(var j = 1; j < primes.length; j++) {
+                            if(primes[j] == cf) {
+                                count2++;
+                            }
+                        }
+                    }
+                    if(count1 > count2) {
+                        for(var j = 0; j < (count1 - count2); j++) {
+                            primes.push(cf);
+                        }
+                    }
+                } while(pfIndex < pfs.length);
+            }
+        }
+    }
+    if(primes.length == 0) {
+        return 1;
+    }
+    var output = 1;
+    for(i = 0; i < primes.length; i++) {
+        output *= primes[i];
+    }
+    return output;
+};
+
+var oneVarEquation = (coefficient1 = 5, coefficient2 = 10, variable = "x") => {
+    var output = "";
+    if(coefficient1 == -1) {
+        output += "-";
+    } else if(coefficient1 != 1) {
+        output += coefficient1;
+    }
+    output += `<i>${variable}</i> = ${coefficient2}`;
+    return output;
 };
 
 var standardSVGLine = (aCo,bCo,cCo,strokeColor,lineW = 2,scaleUp = 5, initX = -20, finalX = 20, opacity = 0.75) => {
@@ -453,5 +552,141 @@ class LinearAlgebra1 {
             output.push(temp);
         }
         return output;
+    }
+}
+
+//Linear Elimination class
+class LinearElimination {
+    constructor(solX = reselectIfZero(9), solY = reselectIfZero(9)) {
+        //Constructor selects the solution (x,y) - intersection point of two lines
+        this.solX = solX;
+        this.solY = solY;
+        this.lineCoefficients = this.getLineCoefficients();
+        this.colorRoll = Math.floor(Math.random()*2); //Determines which color each line will be
+        this.lineColor1 = this.colorRoll == 0 ? "#731C98" : "#f39218";
+        this.lineColor2 = this.colorRoll == 0 ? "#f39218" : "#731C98";
+        this.line1Cos = this.lineCoefficients[0];
+        this.line2Cos = this.lineCoefficients[1];
+        this.eliminateX = this.eliminateXSteps();
+        this.eliminateY = this.eliminateYSteps();
+    }
+
+    getLineCoefficients() {
+        var a1, b1, a2, b2;
+        do {
+            a1 = reselectIfZero(12);
+            b1 = reselectIfZero(12);
+            a2 = reselectIfZero(12);
+            b2 = reselectIfZero(12);
+        } while(a1*b2 == a2*b1); //Don't allow lines to be identical
+        var c1 = a1*this.solX + b1*this.solY;
+        var c2 = a2*this.solX + b2*this.solY;
+        return [[a1,b1,c1],[a2,b2,c2]];
+    }
+
+    eliminateXSteps() {
+        var a1 = this.line1Cos[0];
+        var a2 = this.line2Cos[0];
+        var b1 = this.line1Cos[1];
+        var b2 = this.line2Cos[1];
+        var c1 = this.line1Cos[2];
+        var c2 = this.line2Cos[2];
+        var lcm = leastCommonMultiple([a1,a2]);
+        var factor1, factor2;
+        if(a1 == a2) {
+            factor1 = 1;
+            factor2 = -1;
+        } else if(a1 == -a2) {
+            factor1 = 1;
+            factor2 = 1;
+        } else {
+            factor1 = lcm/a1;
+            factor2 = -lcm/a2;
+        }
+        var steps = [`<ul><li>${formatStandardLinear(a1,b1,c1,this.lineColor1)}</li><li>${formatStandardLinear(a2,b2,c2,this.lineColor2)}</li></ul>`];
+        var nextStep = "<ul><li>";
+        if(factor1 == 1) {
+            nextStep += `${formatStandardLinear(a1,b1,c1,this.lineColor1)}`;
+        } else if(factor1 == -1) {
+            nextStep += `-(${formatStandardLinear(a1,b1,c1,this.lineColor1)})`;
+        } else {
+            nextStep += `${factor1}(${formatStandardLinear(a1,b1,c1,this.lineColor1)})`;
+        }
+        nextStep += "</li><li>";
+        if(factor2 == 1) {
+            nextStep += `${formatStandardLinear(a2,b2,c2,this.lineColor2)}`;
+        } else if(factor2 == -1) {
+            nextStep += `-(${formatStandardLinear(a2,b2,c2,this.lineColor2)})`;
+        } else {
+            nextStep += `${factor2}(${formatStandardLinear(a2,b2,c2,this.lineColor2)})`;
+        }
+        nextStep += "</li></ul>";
+        steps.push(nextStep);
+        nextStep = `<ul><li>${formatStandardLinear(factor1*a1,factor1*b1,factor1*c1,this.lineColor1)}</li><li>${formatStandardLinear(factor2*a2,factor2*b2,factor2*c2,this.lineColor2)}</li></ul>`;
+        steps.push(nextStep);
+        var nextB = factor1*b1 + factor2*b2;
+        var nextC = factor1*c1 + factor2*c2;
+        nextStep = `<ul><li>${oneVarEquation(nextB,nextC,"y")}</li></ul>`;
+        steps.push(nextStep);
+        if(nextB != 1) {
+            nextStep = `<ul><li><i>y</i> = ${this.solY}</li></ul>`;
+            steps.push(nextStep);
+        }
+        nextStep = `<ul><li><i>y</i> = ${this.solY}</li><li><i>x</i> = ${this.solX}</li></ul>`;
+        steps.push(nextStep);
+        return steps;
+    }
+
+    eliminateYSteps() {
+        var a1 = this.line1Cos[0];
+        var a2 = this.line2Cos[0];
+        var b1 = this.line1Cos[1];
+        var b2 = this.line2Cos[1];
+        var c1 = this.line1Cos[2];
+        var c2 = this.line2Cos[2];
+        var lcm = leastCommonMultiple([b1,b2]);
+        var factor1, factor2;
+        if(b1 == b2) {
+            factor1 = 1;
+            factor2 = -1;
+        } else if(b1 == -b2) {
+            factor1 = 1;
+            factor2 = 1;
+        } else {
+            factor1 = lcm/b1;
+            factor2 = -lcm/b2;
+        }
+        var steps = [`<ul><li>${formatStandardLinear(a1,b1,c1,this.lineColor1)}</li><li>${formatStandardLinear(a2,b2,c2,this.lineColor2)}</li></ul>`];
+        var nextStep = "<ul><li>";
+        if(factor1 == 1) {
+            nextStep += `${formatStandardLinear(a1,b1,c1,this.lineColor1)}`;
+        } else if(factor1 == -1) {
+            nextStep += `-(${formatStandardLinear(a1,b1,c1,this.lineColor1)})`;
+        } else {
+            nextStep += `${factor1}(${formatStandardLinear(a1,b1,c1,this.lineColor1)})`;
+        }
+        nextStep += "</li><li>";
+        if(factor2 == 1) {
+            nextStep += `${formatStandardLinear(a2,b2,c2,this.lineColor2)}`;
+        } else if(factor2 == -1) {
+            nextStep += `-(${formatStandardLinear(a2,b2,c2,this.lineColor2)})`;
+        } else {
+            nextStep += `${factor2}(${formatStandardLinear(a2,b2,c2,this.lineColor2)})`;
+        }
+        nextStep += "</li></ul>";
+        steps.push(nextStep);
+        nextStep = `<ul><li>${formatStandardLinear(factor1*a1,factor1*b1,factor1*c1,this.lineColor1)}</li><li>${formatStandardLinear(factor2*a2,factor2*b2,factor2*c2,this.lineColor2)}</li></ul>`;
+        steps.push(nextStep);
+        var nextA = factor1*a1 + factor2*a2;
+        var nextC = factor1*c1 + factor2*c2;
+        nextStep = `<ul><li>${oneVarEquation(nextA,nextC,"x")}</li></ul>`;
+        steps.push(nextStep);
+        if(nextA != 1) {
+            nextStep = `<ul><li><i>x</i> = ${this.solX}</li></ul>`;
+            steps.push(nextStep);
+        }
+        nextStep = `<ul><li><i>x</i> = ${this.solX}</li><li><i>y</i> = ${this.solY}</li></ul>`;
+        steps.push(nextStep);
+        return steps;
     }
 }
