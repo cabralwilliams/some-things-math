@@ -49,6 +49,14 @@ header nav ul li {
 header nav ul li a {
     color: #731C98;
     font-size: 25px;
+    padding: 5px;
+}
+
+header nav ul li a:hover {
+    background-color: #731C98;
+    color: #f39218;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 /*Header Ends*/
 
