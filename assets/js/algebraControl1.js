@@ -131,3 +131,37 @@ linSyst2Pause.addEventListener("click", function() {
         clearInterval(linSyst2Interval);
     }
 });
+
+var compSquareStart = document.getElementById("compSquareStart");
+var compSquarePause = document.getElementById("compSquarePause");
+var compSquareQuest = document.getElementById("compSquareQuest");
+var compSquareDisplay = document.getElementById("compSquareDisplay");
+
+var compSquareIndex = 0;
+var compSquareSolving = false;
+var compSquareOb = new CompleteTheSquare1();
+var compSquareInterval;
+
+compSquareQuest.innerHTML = compSquareOb.solutionsSteps[0][compSquareIndex];
+compSquareDisplay.innerHTML = `<h3>Solution</h3>${compSquareOb.solutionsSteps[1][compSquareIndex]}`;
+
+compSquareStart.addEventListener("click", function() {
+    if(!compSquareSolving) {
+        compSquareSolving = true;
+        compSquareInterval = setInterval(() => {
+            compSquareIndex++;
+            if(compSquareIndex >= compSquareOb.solutionsSteps[0].length) {
+                compSquareIndex = 0;
+            }
+            compSquareQuest.innerHTML = compSquareOb.solutionsSteps[0][compSquareIndex];
+            compSquareDisplay.innerHTML = `<h3>Solution</h3>${compSquareOb.solutionsSteps[1][compSquareIndex]}`;
+        },4000);
+    }
+});
+
+compSquarePause.addEventListener("click", function() {
+    if(compSquareSolving) {
+        compSquareSolving = false;
+        clearInterval(compSquareInterval);
+    }
+});

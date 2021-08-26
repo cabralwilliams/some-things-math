@@ -103,6 +103,87 @@ var formatStandardLinearLeft = (a = 1, b = 1, color = "black") => {
     return output;
 };
 
+var formatPolynomial = (coefficentArray = [1,2,3,4,5], variable = "x") => {
+    //Returns polynomial in x^4 + 2x^3 + 3x^2 + 4x + 5 form
+    var zeroCount = 0;
+    for(var i = 0; i < coefficentArray.length; i++) {
+        if(coefficentArray[i] == 0) {
+            zeroCount++;
+        }
+    }
+    if(zeroCount == coefficentArray.length) {
+        return "0"; //If all zeros, return 0
+    } else if(coefficentArray.length == 1) {
+        return `${coefficentArray[0]}`; //If only one number, return that number
+    }
+    var xStr = `<i>${variable}</i>`;
+    var expStr = (exponent = 1) => {
+        if(exponent == 1 || exponent == 0) {
+            return "";
+        } else {
+            return `<sup>${exponent}</sup>`;
+        }
+    };
+    var newCos = [];
+    var newIndex = 0;
+    while(coefficentArray[newIndex] == 0) { //prevent polynomial from starting with 0
+        newIndex++;
+    }
+    for(i = newIndex; i < coefficentArray.length; i++) {
+        newCos.push(coefficentArray[i]);
+    }
+    var degree = newCos.length - 1;
+    var output = "";
+    for(i = 0; i < newCos.length; i++) {
+        if(newCos[i] != 0) {
+            if(i == newCos.length - 1) {
+                if(newCos[i] < 0) {
+                    output += " - " + (-newCos[i]);
+                } else if(newCos[i] > 0) {
+                    output += " + " + newCos[i];
+                }
+            } else if(i == 0) {
+                if(newCos[i] == -1) {
+                    output += "-";
+                } else if(newCos[i] != 1) {
+                    output += newCos[i];
+                }
+                output += `<i>${variable}</i>${expStr(degree - i)}`;
+            } else {
+                if(newCos[i] < 0) {
+                    output += " - ";
+                    if(newCos[i] != -1) {
+                        output += (-newCos[i]);
+                    }
+                } else if(newCos[i] > 0) {
+                    output += " + ";
+                    if(newCos[i] != 1) {
+                        output += newCos[i];
+                    }
+                }
+                output += `<i>${variable}</i>${expStr(degree - i)}`;
+            }
+        }
+    }
+    return  output;
+};
+
+var formatLinearFactor = (leadCo = 1, zeroCo = 5, variable = "x") => {
+    var output = "";
+    if(leadCo == -1) {
+        output += "-";
+    } else if(leadCo != 1) {
+        output += leadCo;
+    }
+    output += `<i>${variable}</i>`;
+    if(zeroCo > 0) {
+        output += ` - ${zeroCo}`;
+    } else if(zeroCo < 0) {
+        output += ` + ${-zeroCo}`;
+    }
+    return output;
+};
+
 var isPrime = (intVal = 24) => {
     if(Math.abs(intVal) < 2) {
         return false;
@@ -232,6 +313,7 @@ var leastCommonMultiple = (inputArray = [1,2,3,4,5]) => {
 };
 
 var oneVarEquation = (coefficient1 = 5, coefficient2 = 10, variable = "x") => {
+    //returns an equation in 5x = 10 form
     var output = "";
     if(coefficient1 == -1) {
         output += "-";
@@ -240,6 +322,26 @@ var oneVarEquation = (coefficient1 = 5, coefficient2 = 10, variable = "x") => {
     }
     output += `<i>${variable}</i> = ${coefficient2}`;
     return output;
+};
+
+var sqrtArray = (inputInt = 900) => {
+    //Returns [a,b] of a&radic;b
+    var perfectSquare = 1;
+    var remain = Math.floor(Math.abs(inputInt));
+    if(remain == 0) {
+        return [0,0];
+    } else if(remain == 1) {
+        return [1,1];
+    } else if(Math.floor(Math.sqrt(remain)) == Math.sqrt(remain)) {
+        return [Math.sqrt(remain),1];
+    }
+    for(var i = Math.ceil(Math.sqrt(remain)); i > 3; i--) {
+        if(Math.floor(Math.sqrt(i)) == Math.sqrt(i) && remain%i == 0) {
+            perfectSquare *= Math.sqrt(i);
+            remain /= i;
+        }
+    }
+    return [perfectSquare,remain];
 };
 
 var standardSVGLine = (aCo,bCo,cCo,strokeColor,lineW = 2,scaleUp = 5, initX = -20, finalX = 20, opacity = 0.75) => {
@@ -688,5 +790,90 @@ class LinearElimination {
         nextStep = `<ul><li><i>x</i> = ${this.solX}</li><li><i>y</i> = ${this.solY}</li></ul>`;
         steps.push(nextStep);
         return steps;
+    }
+}
+
+class CompleteTheSquare1 {
+    constructor(axisOfSymmetry = reselectIfZero(15)) {
+        this.axisOfSymmetry = axisOfSymmetry;
+        this.requiredC = this.axisOfSymmetry*this.axisOfSymmetry;
+        this.initialC = -Math.ceil(Math.random()*30) + Math.ceil(Math.random()*this.requiredC);
+        this.colorRoll = Math.floor(Math.random()*2); //Determines which color each line will be
+        this.color1 = this.colorRoll == 0 ? "#731C98" : "#f39218";
+        this.color2 = this.colorRoll == 0 ? "#f39218" : "#731C98";
+        this.solutionsSteps = this.getSolutionSteps();
+    }
+
+    getSolutionSteps() {
+        var addition = this.requiredC - this.initialC;
+        var sqrtA = sqrtArray(addition);
+        var question = `<ul><li>${formatPolynomial([1,-2*this.axisOfSymmetry,this.initialC],"x")} = 0</li><li>What are all solutions, <i>x</i>, to the equation above?</li>`;
+        var initPoly = formatPolynomial([1,-2*this.axisOfSymmetry,this.initialC],"x");
+        var firstStep = `<ul><li>${formatPolynomial([1,-2*this.axisOfSymmetry,this.initialC],"x")} = 0</li>`;
+        var steps1 = [`${question}</ul>`]; //1
+        var steps2 = [firstStep + "</ul>",firstStep + "</ul>",firstStep + "</ul>"]; //3
+        var nextStep1 = `<li><span style='color: ${this.color1};'>Divide the linear term by 2: </span><span style='color: ${this.color2};'>${-2*this.axisOfSymmetry}/2 = ${-this.axisOfSymmetry}.</span></li></ul>`;
+        steps1.push(question + nextStep1); //2
+        nextStep1 = question + `<li><span style='color: ${this.color1};'>Square the </span><span style='color: ${this.color2};'>${-this.axisOfSymmetry}</span> <span style='color: ${this.color1};'>&rarr;: </span><span style='color: ${this.color2};'>(${-this.axisOfSymmetry})<sup>2</sup> = ${this.axisOfSymmetry*this.axisOfSymmetry}</span></li></ul>`;
+        steps1.push(nextStep1); //3
+        nextStep1 = question + `<li><span style='color: ${this.color1};'>Add </span><span style='color: ${this.color2};'>${addition}</span> <span style='color: ${this.color1};'>to both sides.</span></li></ul>`;
+        var nextStep2 = `<ul><li>${initPoly} <span style='color: ${this.color2};'>+ ${addition}</span> = 0 <span style='color: ${this.color2};'>+ ${addition}</span></li></ul>`;
+        steps1.push(nextStep1); //4
+        steps2.push(nextStep2); //4
+        nextStep1 = question + `<li><span style='color: ${this.color1};'>Simplify</span></li></ul>`;
+        nextStep2 = `<ul><li style='color: ${this.color2}'>${formatPolynomial([1,-2*this.axisOfSymmetry,this.requiredC],"x")} = ${addition}</li></ul>`;
+        steps1.push(nextStep1); //5
+        steps2.push(nextStep2); //5
+        nextStep1 = question + `<li><span style='color: ${this.color1};'>Rewrite both sides as squares.</span></li></ul>`;
+        nextStep2 = `<ul><li style='color: ${this.color2};'>(${formatLinearFactor(1,this.axisOfSymmetry,"x")})<sup>2</sup> = (&radic;<span class='rootBorder${this.color2.slice(1)}'>${addition}</span>)<sup>2</sup></li></ul>`;
+        steps1.push(nextStep1); //6
+        steps2.push(nextStep2); //6
+        var rootStr, rootStr2;
+        if(sqrtA[1] == 1) {
+            rootStr = `&plusmn;${sqrtA[0]}`;
+            rootStr2 = ` &plusmn; ${sqrtA[0]}`;
+        } else {
+            rootStr = "&plusmn;";
+            rootStr2 = " &plusmn; ";
+            if(sqrtA[0] != 1) {
+                rootStr += sqrtA[0];
+                rootStr2 += sqrtA[0];
+            }
+            rootStr += `&radic;<span class='rootBorder${this.color2.slice(1)}'>${sqrtA[1]}</span>`;
+            rootStr2 += `&radic;<span class='rootBorder${this.color2.slice(1)}'>${sqrtA[1]}</span>`;
+        }
+        nextStep1 = question + `<li><span style='color: ${this.color1};'>Take the square root of both sides.</span></li></ul>`;
+        nextStep2 = `<ul><li style='color: ${this.color2};'>${formatLinearFactor(1,this.axisOfSymmetry,"x")} = ${rootStr}</li></ul>`;
+        steps1.push(nextStep1); //7
+        steps2.push(nextStep2); //7
+        var shift = () => {
+            if(this.axisOfSymmetry > 0) {
+                return `Add ${this.axisOfSymmetry} to both sides.`;
+            } else {
+                return `Subtract ${-this.axisOfSymmetry} from both sides.`;
+            }
+        };
+        var lineFactPlus = formatLinearFactor(1,this.axisOfSymmetry,"x") + `<span style='color: ${this.color2};'>`;
+        if(this.axisOfSymmetry > 0) {
+            lineFactPlus += ` + ${this.axisOfSymmetry}`;
+        } else {
+            lineFactPlus += ` - ${-this.axisOfSymmetry}`;
+        }
+        lineFactPlus += `</span> = <span style='color: ${this.color2};'>${this.axisOfSymmetry}</span>${rootStr2}`;
+        nextStep1 = question + `<li><span style='color: ${this.color1};'>${shift()}</span></li></ul>`;
+        nextStep2 = `<ul><li>${lineFactPlus}</li></ul>`;
+        steps1.push(nextStep1); //8
+        steps2.push(nextStep2); //8
+        var solStr;
+        if(sqrtA[1] == 1) {
+            solStr = `${this.axisOfSymmetry - sqrtA[0]} and ${this.axisOfSymmetry + sqrtA[0]}`;
+        } else {
+            solStr = `${this.axisOfSymmetry}${rootStr2}`;
+        }
+        nextStep1 = question + `<li><span style='color: ${this.color1};'>Simplify.</span></li></ul>`;
+        nextStep2 = `<ul><li style='color: ${this.color2};'><i>x</i> = ${solStr}</li></ul>`;
+        steps1.push(nextStep1); //9
+        steps2.push(nextStep2); //9
+        return [steps1,steps2];
     }
 }
