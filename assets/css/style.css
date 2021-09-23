@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+:root {
+    --color1: #f39218;
+    --color2: #731C98;
+}
+
 body {
     width: 100%;
 }
@@ -142,6 +147,14 @@ header nav ul li a:hover {
     color: #731C98;
 }
 
+.my-basic-button {
+    width: 75%;
+    font-size: 22px;
+    margin-bottom: 10px;
+    background-color: #f39218;
+    color: #731C98;
+}
+
 .button-group ul li {
     list-style: none;
     line-height: 1.2;
@@ -188,6 +201,77 @@ footer {
     border-top: #731C98 solid 1px;
 }
 /*Root borders end*/
+
+.row-to-flex {
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 25px;
+}
+
+.row-to-flex div, .row-to-flex button {
+    flex: 1;
+}
+
+.row-to-flex div {
+    font-size: 20px;
+}
+
+.justify-evenly {
+    justify-content: space-evenly;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.align-content-center {
+    align-content: center;
+}
+
+.column-to-flex {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+}
+
+.column-to-flex p, .column-to-flex ul {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.width200 {
+    width: 200px;
+}
+
+.width250 {
+    width: 250px;
+}
+
+.borderColor1All {
+    border: var(--color1) solid 2px;
+}
+
+.border-Bottom-Right-1 {
+    border-bottom: var(--color1) solid 2px;
+    border-right: var(--color1) solid 2px;
+}
+
+.border-Bottom-1 {
+    border-bottom: var(--color1) solid 2px;
+}
+
+.tPadding-4 {
+    padding: 4px;
+}
 
 @media screen and (max-width: 980px) {
     .button-group button {
