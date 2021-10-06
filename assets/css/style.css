@@ -148,7 +148,7 @@ header nav ul li a:hover {
 }
 
 .my-basic-button {
-    width: 75%;
+    /*width: 75%;*/
     font-size: 22px;
     margin-bottom: 10px;
     background-color: #f39218;
@@ -215,6 +215,17 @@ footer {
 
 .row-to-flex div {
     font-size: 20px;
+}
+
+.row-to-flex-2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 25px;
+}
+
+.row-to-flex-2 div {
+    flex: 0 1 auto;
 }
 
 .justify-evenly {
@@ -289,5 +300,15 @@ footer {
     .button-group button {
         font-size: 14px;
         width: 80%;
+    }
+
+    .row-to-flex-2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row-to-flex-2 div {
+        flex: 0 1 100%;
     }
 }
