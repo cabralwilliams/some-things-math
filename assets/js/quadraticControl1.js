@@ -95,8 +95,8 @@ var generateSelectorElement = function() {
 var generatePreviousResults = function() {
     quizDiv.innerHTML = "";
     var outputDiv = document.createElement("div");
-    addClassToElement(outputDiv,"row-to-flex");
-    addClassToElement(outputDiv,"justify-between");
+    addClassToElement(outputDiv,"row-to-flex-2");
+    //addClassToElement(outputDiv,"justify-around");
     var displayButton = document.createElement("button");
     addClassToElement(displayButton,"my-basic-button");
     var clearButton = document.createElement("button");
@@ -105,7 +105,11 @@ var generatePreviousResults = function() {
     clearButton.id = "clearData";
     displayButton.textContent = "Show Previous Results";
     clearButton.textContent = "Clear Previous Results";
-    outputDiv.append(displayButton,clearButton);
+    var displayDiv = document.createElement("div");
+    var clearDiv = document.createElement("div");
+    displayDiv.appendChild(displayButton);
+    clearDiv.appendChild(clearButton);
+    outputDiv.append(displayDiv,clearDiv);
     quizDiv.appendChild(outputDiv);
 };
 
