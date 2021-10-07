@@ -209,6 +209,18 @@ footer {
     margin-top: 25px;
 }
 
+.lonely {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.lonely button {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .row-to-flex div, .row-to-flex button {
     flex: 1;
 }
@@ -300,6 +312,10 @@ footer {
     .button-group button {
         font-size: 14px;
         width: 80%;
+    }
+
+    .row-to-flex {
+        flex-direction: column;
     }
 
     .row-to-flex-2 {
