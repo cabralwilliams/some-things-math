@@ -214,8 +214,51 @@ class IntersectingLines1 {
     }
 }
 
+class PerpendicularLines1 {
+    constructor() {
+        this.coA1 = reselectIfZero(12);
+        this.coB1 = reselectIfZero(12);
+        this.multiple = reselectIfZero(4);
+        this.coA2 = this.coB1*this.multiple;
+        this.coB2 = -this.coA1*this.multiple;
+        this.solX = reselectIfZero(9);
+        this.solY = reselectIfZero(9);
+        this.coC1 = this.coA1*this.solX + this.coB1*this.solY;
+        this.coC2 = this.coA2*this.solX + this.coB2*this.solY;
+        this.questionArray = this.createQuestion();
+    }
+
+    createQuestion() {
+        var coefficientArray = [this.coA1,this.coB1,this.coA2,this.coB2];
+        var changeInt = Math.floor(Math.random()*4);
+        var answer = coefficientArray[changeInt];
+        var newCoefficients = [];
+        for(var i = 0; i < 4; i++) {
+            if(i !== changeInt) {
+                newCoefficients.push(coefficientArray[i]);
+            } else {
+                newCoefficients.push("K");
+            }
+        }
+        var line1 = formatStandardLinear(newCoefficients[0],newCoefficients[1],this.coC1);
+        var line2 = formatStandardLinear(newCoefficients[2],newCoefficients[3],this.coC2);
+        var question = Math.random() < 0.5 ? "If the two lines above intersect at right angles, what is the value of K?" : "If the lines above are perpendicular, what is the value of K?";
+        var output = [];
+        if(Math.random() < 0.5) {
+            output.push(line1);
+            output.push(line2);
+        } else {
+            output.push(line2);
+            output.push(line1);
+        }
+        output.push(question);
+        output.push([answer]);
+        return output;
+    }
+}
+
 class AllLinearClasses {
-    constructor(selectorInt = Math.floor(Math.random()*3)) {
+    constructor(selectorInt = Math.floor(Math.random()*4)) {
         this.selectorInt = selectorInt;
         this.ob = this.createObject();
     }
@@ -231,6 +274,9 @@ class AllLinearClasses {
                 break;
             case 2:
                 ob = new IntersectingLines1();
+                break;
+            case 3:
+                ob = new PerpendicularLines1();
                 break;
             default:
                 ob = new ParallelLines1();

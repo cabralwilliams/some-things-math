@@ -121,9 +121,9 @@ var setUpQuiz = function(event) {
     timeController = setInterval(updateTime,1000);
 };
 
-var createResultOb = function(question,response,answers,wasCorrect) {
+var createResultOb = function(line1,line2,question,response,answers,wasCorrect) {
     var output = {};
-    output.question = question;
+    output.question = `<ul><li>${line1}</li><li>${line2}</li></ul>` + question;
     output.response = response;
     output.correctAnswers = answers.join(", ");
     output.wasCorrect = wasCorrect;
@@ -169,7 +169,7 @@ var checkSubmittedAnswer = function(event) {
             break;
         }
     }
-    var resultOb = createResultOb(nextObject.questionArray[2],stResponse,nextObject.questionArray[3],answerFound);
+    var resultOb = createResultOb(nextObject.questionArray[0],nextObject.questionArray[1],nextObject.questionArray[2],stResponse,nextObject.questionArray[3],answerFound);
     thisQuiz.push(resultOb);
     if(questionCount === 10) {
         clearInterval(timeController);
